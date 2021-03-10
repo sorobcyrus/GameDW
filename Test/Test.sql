@@ -7,5 +7,5 @@ FROM Game.Retailer;
 Go
 
 SELECT * 
-FROM Game.Order;
+FROM Game.[Order];
 Go
