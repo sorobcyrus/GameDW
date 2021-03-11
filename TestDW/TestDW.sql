@@ -6,7 +6,9 @@ SELECT *
 FROM GameDW.DimRetailer;
 GO
 
-
+SELECT * 
+FROM GameDW.FactSales;
+GO
 
 SELECT *
 FROM GameDW.DimTime;
