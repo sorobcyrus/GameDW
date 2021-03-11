@@ -19,7 +19,5 @@ SELECT
 	R.RetailerID,
 	R.[Name]
 FROM Game.Retailer R
-	INNER JOIN Game.Discount D
-	ON R.DiscountID = D.DiscountID
 ;
 GO
