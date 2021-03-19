@@ -40,16 +40,16 @@ IF EXISTS (SELECT *
 BEGIN 
     SET @Message = 'Table Game.Game already exists, Skipping CREATE TABLE...';
     RAISERROR(@Message, 0,1) WITH NOWAIT;
-	EXEC Game.InsertHistory @SP = @SP,
-		@Status = 'Error',
-		@Message = @Message;
+
 END
 ELSE
 BEGIN
     CREATE TABLE Game.[Game]
     (
         GameID       TINYINT        NOT NULL,
-        [Name]       VARCHAR(50)    NOT NULL,
+		PartnerID	 TINYINT		NOT NULL,
+		TypeID       TINYINT        NOT NULL,
+        [Name]       NVARCHAR(50)   NOT NULL,
         CONSTRAINT PK_Game_GameID PRIMARY KEY CLUSTERED(GameID)
     );
 
@@ -60,6 +60,29 @@ END
 
 ---------------------------------------------------------------------------------------
 
+Set @ErrorText = 'Failed CREATE Table Game.Type.';
+
+IF EXISTS (SELECT * 
+    FROM sys.objects
+    WHERE object_id = OBJECT_ID(N'Game.Type') AND type in (N'U'))
+BEGIN 
+    SET @Message = 'Table Game.Type already exists, Skipping CREATE TABLE...';
+    RAISERROR(@Message, 0,1) WITH NOWAIT;
+END
+ELSE  
+BEGIN
+    CREATE TABLE Game.[Type]
+    (
+        TypeID       TINYINT        NOT NULL,
+        [Name]       VARCHAR(50)    NOT NULL,
+        Note         VARCHAR(250)   NULL,
+        CONSTRAINT PK_Type_TypeID PRIMARY KEY CLUSTERED(TypeID)
+    );
+
+    SET @Message = 'Completed CREATE TABLE Game.Type.';
+    RAISERROR(@Message, 0,1) WITH NOWAIT;
+END
+---------------------------------------------------------------------------------------
 Set @ErrorText = 'Failed CREATE Table Game.Retailer.';
 
 IF EXISTS (SELECT * 
@@ -74,11 +97,61 @@ BEGIN
     CREATE TABLE Game.Retailer
     (
         RetailerID  TINYINT         NOT NULL,
-        [Name]      VARCHAR(50)     NOT NULL
+        [Name]      NVARCHAR(50)    NOT NULL
         CONSTRAINT PK_Retailer_RetailerID PRIMARY KEY CLUSTERED(RetailerID)
     );
 
     SET @Message = 'Completed CREATE TABLE Game.Retailer.';
+    RAISERROR(@Message, 0,1) WITH NOWAIT;
+END
+---------------------------------------------------------------------------------------
+
+Set @ErrorText = 'Failed CREATE Table Game.Partner.';
+
+IF EXISTS (SELECT * 
+    FROM sys.objects
+    WHERE object_id = OBJECT_ID(N'Game.Partner') AND type in (N'U'))
+BEGIN 
+    SET @Message = 'Table Game.Partner already exists, Skipping CREATE TABLE...';
+    RAISERROR(@Message, 0,1) WITH NOWAIT;
+END
+ELSE
+BEGIN
+    CREATE TABLE Game.[Partner]
+    (
+        PartnerID    TINYINT         NOT NULL,
+        [Name]       NVARCHAR(50)	 NOT NULL,
+        CONSTRAINT PK_Partner_PartnerID PRIMARY KEY CLUSTERED(PartnerID)
+    );
+
+    SET @Message = 'Completed CREATE TABLE Game.Partner.';
+    RAISERROR(@Message, 0,1) WITH NOWAIT;
+END
+---------------------------------------------------------------------------------------
+
+Set @ErrorText = 'Failed CREATE Table Game.PartnerInfo.';
+
+IF EXISTS (SELECT * 
+    FROM sys.objects
+    WHERE object_id = OBJECT_ID(N'Game.PartnerInfo') AND type in (N'U'))
+BEGIN 
+    SET @Message = 'Table Game.PartnerInfo already exists, Skipping CREATE TABLE...';
+    RAISERROR(@Message, 0,1) WITH NOWAIT;
+END
+ELSE  
+BEGIN
+    CREATE TABLE Game.[PartnerInfo]
+    (
+        PartnerID       TINYINT         NOT NULL,
+        Website         NVARCHAR(250)   NULL,
+        City            VARCHAR(50)     NOT NULL,
+        [State]         VARCHAR(2)      NOT NULL,
+        Country         VARCHAR(50)     NULL,
+        Note            NVARCHAR(250)   NULL,
+        CONSTRAINT PK_PartnerInfo_PartnerID PRIMARY KEY CLUSTERED(PartnerID)
+    );
+
+    SET @Message = 'Completed CREATE TABLE Game.PartnerInfo.';
     RAISERROR(@Message, 0,1) WITH NOWAIT;
 END
 ---------------------------------------------------------------------------------------
@@ -99,7 +172,7 @@ BEGIN
         OrderID         INT         NOT NULL,
         GameID          TINYINT     NOT NULL,
         RetailerID      TINYINT     NOT NULL,
-        OrderDate       DATETIME    NOT NULL,
+        OrderDate       DATE	    NOT NULL,
         Quantity        INT         NOT NULL,
         TotalAmount     MONEY       NOT NULL,
         CONSTRAINT PK_Order_OrderID PRIMARY KEY CLUSTERED(OrderID),
@@ -125,9 +198,9 @@ BEGIN CATCH;
                     +', Server Error Message = '+CONVERT(VARCHAR(100),ISNULL(ERROR_MESSAGE(),'NULL'))      
                     +', SP Defined Error Text = '+@ErrorText;
 
-    EXEC Game.InsertHistory @SP = @SP,
-        @Status = 'Error',
-        @Message = @ErrorText
+    --EXEC Game.InsertHistory @SP = @SP,
+    --    @Status = 'Error',
+    --    @Message = @ErrorText
 
 RAISERROR(@ErrorText,18,127) WITH NOWAIT;
 END CATCH;

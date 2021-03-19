@@ -32,6 +32,51 @@ SET @StartTime = GETDATE();
 SET @Message = 'Started SP ' + @SP + ' at ' + FORMAT(@StartTime , 'MM/dd/yyyy HH:mm:ss');  
 RAISERROR (@Message, 0,1) WITH NOWAIT;
 -------------------------------------------------------------------------------
+SET @ErrorText = 'Failed adding FOREIGN KEY for Table Game.PartnerInfo.';
+
+IF EXISTS (SELECT *
+	FROM sys.foreign_keys
+	WHERE object_id = OBJECT_ID(N'Game.FK_PartnerInfo_Partner_PartnerID')
+	AND parent_object_id = OBJECT_ID(N'Game.PartnerInfo')
+	)
+BEGIN
+  SET @Message = 'FOREIGN KEY for Table Game.PartnerInfo already exist, skipping....';
+  RAISERROR(@Message, 0,1) WITH NOWAIT;
+END
+ELSE
+BEGIN
+  ALTER TABLE Game.PartnerInfo
+	ADD CONSTRAINT FK_PartnerInfo_Partner_PartnerID FOREIGN KEY (PartnerID)
+    REFERENCES Game.[Partner] (PartnerID);
+
+  SET @Message = 'Completed adding FOREIGN KEY for TABLE Game.PartnerInfo.';
+  RAISERROR(@Message, 0,1) WITH NOWAIT;
+END
+-------------------------------------------------------------------------------
+
+SET @ErrorText = 'Failed adding FOREIGN KEY for Table Game.Game.';
+
+IF EXISTS (SELECT *
+	FROM sys.foreign_keys
+	WHERE object_id = OBJECT_ID(N'Game.FK_Game_Partner_PartnerID')
+	AND parent_object_id = OBJECT_ID(N'Game.Game')
+)
+BEGIN
+  SET @Message = 'FOREIGN KEY for Table Game.Game already exist, skipping....';
+  RAISERROR(@Message, 0,1) WITH NOWAIT;
+END
+ELSE
+BEGIN
+  ALTER TABLE Game.Game
+   ADD CONSTRAINT FK_Game_Partner_PartnerID FOREIGN KEY (PartnerID)
+      REFERENCES Game.[Partner] (PartnerID),
+   CONSTRAINT FK_Game_Type_TypeID FOREIGN KEY (TypeID)
+      REFERENCES Game.Type (TypeID);
+      
+  SET @Message = 'Completed adding FOREIGN KEY for TABLE Game.Game.';
+  RAISERROR(@Message, 0,1) WITH NOWAIT;
+END
+-------------------------------------------------------------------------------
 
 SET @ErrorText = 'Failed adding FOREIGN KEY for Table Game.Order.';
 

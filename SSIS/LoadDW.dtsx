@@ -1,0 +1,2445 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/16/2021 7:24:43 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="SOROB-DEV-2"
+  DTS:CreatorName="SOROB-DEV-2\sorob"
+  DTS:DTSID="{AB84B6F2-5598-4B84-83A0-35FA5F46F32D}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.152"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{25210A20-4A40-475D-A445-BA8C00FACCC4}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DW_Connection]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{C37399C7-766A-4BD8-8AA8-0BA873333CB9}"
+      DTS:ObjectName="DW_Connection">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=GameDWDW;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[OLTP_Connection]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E063A7E8-A2DE-4C84-9F7C-CFA04656B55E}"
+      DTS:ObjectName="OLTP_Connection">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=.;Initial Catalog=GameDW;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Build SalesFact"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{31DE2C99-36E4-44C6-9BBF-F93CBC402691}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Build SalesFact"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Build SalesFact\DimGame Lookup"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="DimGame Lookup"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [Game].[vGame]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [Game].[vGame]) [refTable]
+where [refTable].[GameID] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="GameID" dataType="DT_UI1" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Name" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="GameType" dataType="DT_STR" length="50" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="PartnerID" dataType="DT_UI1" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Partner" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[GameID]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Build SalesFact\DimGame Lookup.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[OLTP_Connection]"
+                  connectionManagerRefId="Package.ConnectionManagers[OLTP_Connection]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Build SalesFact\DimGame Lookup.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Build SalesFact\DimGame Lookup.Inputs[Lookup Input].Columns[GameID]"
+                      cachedDataType="ui1"
+                      cachedName="GameID"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[GameID]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">GameID</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Build SalesFact\DimGame Lookup.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Build SalesFact\DimGame Lookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Build SalesFact\DimGame Lookup.Outputs[Lookup Match Output].Columns[PartnerID]"
+                      dataType="ui1"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Build SalesFact\DimGame Lookup.Outputs[Lookup Match Output].Columns[PartnerID]"
+                      name="PartnerID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">PartnerID</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Build SalesFact\DimGame Lookup.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Build SalesFact\DimGame Lookup.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Build SalesFact\DimGame Lookup.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Build SalesFact\DimGame Lookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Build SalesFact\DimGame Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Build SalesFact\DimGame Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\DimGame Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Build SalesFact\DimGame Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Build SalesFact\DimTime Lookup"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="DimTime Lookup"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from [GameDW].[DimTime]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select * from (select * from [GameDW].[DimTime]) [refTable]
+where [refTable].[ActualDate] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="TimeKey" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ActualDate" dataType="DT_DBDATE" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Year" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Quarter" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Month" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Week" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="DayofYear" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="DayofMonth" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="DayofWeek" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="IsWeekend" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="Comments" dataType="DT_STR" length="20" precision="0" scale="0" codePage="1252"/&gt;&lt;referenceColumn name="CalendarWeek" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="BusinessYearWeek" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="LeapYear" dataType="DT_UI1" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrderDate]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Build SalesFact\DimTime Lookup.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DW_Connection]"
+                  connectionManagerRefId="Package.ConnectionManagers[DW_Connection]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Build SalesFact\DimTime Lookup.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Build SalesFact\DimTime Lookup.Inputs[Lookup Input].Columns[OrderDate]"
+                      cachedDataType="dbDate"
+                      cachedName="OrderDate"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrderDate]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">ActualDate</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Build SalesFact\DimTime Lookup.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\Build SalesFact\DimTime Lookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Build SalesFact\DimTime Lookup.Outputs[Lookup Match Output].Columns[TimeKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\Build SalesFact\DimTime Lookup.Outputs[Lookup Match Output].Columns[TimeKey]"
+                      name="TimeKey"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">TimeKey</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Build SalesFact\DimTime Lookup.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\Build SalesFact\DimTime Lookup.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Build SalesFact\DimTime Lookup.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\Build SalesFact\DimTime Lookup.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Build SalesFact\DimTime Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Build SalesFact\DimTime Lookup.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\DimTime Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Build SalesFact\DimTime Lookup.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Build SalesFact\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[GameDW].[FactSales]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Build SalesFact\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DW_Connection]"
+                  connectionManagerRefId="Package.ConnectionManagers[DW_Connection]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[OrderID]"
+                      cachedDataType="i4"
+                      cachedName="OrderID"
+                      externalMetadataColumnId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OrderID]"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrderID]" />
+                    <inputColumn
+                      refId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[GameID]"
+                      cachedDataType="ui1"
+                      cachedName="GameID"
+                      externalMetadataColumnId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GameID]"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[GameID]" />
+                    <inputColumn
+                      refId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[RetailerID]"
+                      cachedDataType="ui1"
+                      cachedName="RetailerID"
+                      externalMetadataColumnId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RetailerID]"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[RetailerID]" />
+                    <inputColumn
+                      refId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[TotalAmount]"
+                      cachedDataType="cy"
+                      cachedName="TotalAmount"
+                      externalMetadataColumnId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TotalAmount]"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[TotalAmount]" />
+                    <inputColumn
+                      refId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[TimeKey]"
+                      cachedDataType="i4"
+                      cachedName="TimeKey"
+                      externalMetadataColumnId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TimeKey]"
+                      lineageId="Package\Build SalesFact\DimTime Lookup.Outputs[Lookup Match Output].Columns[TimeKey]" />
+                    <inputColumn
+                      refId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PartnerID]"
+                      cachedDataType="ui1"
+                      cachedName="PartnerID"
+                      externalMetadataColumnId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PartnerID]"
+                      lineageId="Package\Build SalesFact\DimGame Lookup.Outputs[Lookup Match Output].Columns[PartnerID]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[OrderID]"
+                      dataType="i4"
+                      name="OrderID" />
+                    <externalMetadataColumn
+                      refId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[GameID]"
+                      dataType="ui1"
+                      name="GameID" />
+                    <externalMetadataColumn
+                      refId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PartnerID]"
+                      dataType="ui1"
+                      name="PartnerID" />
+                    <externalMetadataColumn
+                      refId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[RetailerID]"
+                      dataType="ui1"
+                      name="RetailerID" />
+                    <externalMetadataColumn
+                      refId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TimeKey]"
+                      dataType="i4"
+                      name="TimeKey" />
+                    <externalMetadataColumn
+                      refId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[TotalAmount]"
+                      dataType="cy"
+                      name="TotalAmount" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Build SalesFact\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Build SalesFact\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Build SalesFact\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Build SalesFact\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Game].[Order]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Build SalesFact\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[OLTP_Connection]"
+                  connectionManagerRefId="Package.ConnectionManagers[OLTP_Connection]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrderID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OrderID]"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrderID]"
+                      name="OrderID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[GameID]"
+                      dataType="ui1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GameID]"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[GameID]"
+                      name="GameID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[RetailerID]"
+                      dataType="ui1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RetailerID]"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[RetailerID]"
+                      name="RetailerID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrderDate]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OrderDate]"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[OrderDate]"
+                      name="OrderDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[Quantity]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[Quantity]"
+                      name="Quantity"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[TotalAmount]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[TotalAmount]"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].Columns[TotalAmount]"
+                      name="TotalAmount"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OrderID]"
+                      dataType="i4"
+                      name="OrderID" />
+                    <externalMetadataColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[GameID]"
+                      dataType="ui1"
+                      name="GameID" />
+                    <externalMetadataColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[RetailerID]"
+                      dataType="ui1"
+                      name="RetailerID" />
+                    <externalMetadataColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[OrderDate]"
+                      dataType="dbDate"
+                      name="OrderDate" />
+                    <externalMetadataColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Quantity]"
+                      dataType="i4"
+                      name="Quantity" />
+                    <externalMetadataColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[TotalAmount]"
+                      dataType="cy"
+                      name="TotalAmount" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OrderID]"
+                      dataType="i4"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OrderID]"
+                      name="OrderID" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GameID]"
+                      dataType="ui1"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[GameID]"
+                      name="GameID" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RetailerID]"
+                      dataType="ui1"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[RetailerID]"
+                      name="RetailerID" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OrderDate]"
+                      dataType="dbDate"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[OrderDate]"
+                      name="OrderDate" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                      dataType="i4"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Quantity]"
+                      name="Quantity" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[TotalAmount]"
+                      dataType="cy"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[TotalAmount]"
+                      name="TotalAmount" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Build SalesFact.Paths[Lookup Match Output]"
+              endId="Package\Build SalesFact\DimGame Lookup.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\Build SalesFact\DimTime Lookup.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Build SalesFact.Paths[Lookup Match Output1]"
+              endId="Package\Build SalesFact\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\Build SalesFact\DimGame Lookup.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\Build SalesFact.Paths[OLE DB Source Output]"
+              endId="Package\Build SalesFact\DimTime Lookup.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\Build SalesFact\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Build Time Dimension"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{42406777-B2FD-4289-B85E-413688596A3C}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Build Time Dimension"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C37399C7-766A-4BD8-8AA8-0BA873333CB9}"
+          SQLTask:SqlStatementSource="EXEC GameDW.BuildDimTime @MinDate = '1/1/2020', @MaxDate = '1/31/2022';&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Dimensions"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{0D354D48-2803-40DD-8ACF-1BEB258630F8}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Dimensions"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Dimensions\DW Game"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="DW Game"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[GameDW].[DimGame]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Dimensions\DW Game.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DW_Connection]"
+                  connectionManagerRefId="Package.ConnectionManagers[DW_Connection]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].Columns[GameID]"
+                      cachedDataType="ui1"
+                      cachedName="GameID"
+                      externalMetadataColumnId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].ExternalColumns[GameID]"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[GameID]" />
+                    <inputColumn
+                      refId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].Columns[GameType]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="GameType"
+                      externalMetadataColumnId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].ExternalColumns[GameType]"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[GameType]" />
+                    <inputColumn
+                      refId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].Columns[Partner]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Partner"
+                      externalMetadataColumnId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].ExternalColumns[Partner]"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[Partner]" />
+                    <inputColumn
+                      refId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].Columns[PartnerID]"
+                      cachedDataType="ui1"
+                      cachedName="PartnerID"
+                      externalMetadataColumnId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].ExternalColumns[PartnerID]"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[PartnerID]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].ExternalColumns[GameID]"
+                      dataType="ui1"
+                      name="GameID" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="50"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].ExternalColumns[GameType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="GameType" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].ExternalColumns[Partner]"
+                      dataType="wstr"
+                      length="50"
+                      name="Partner" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input].ExternalColumns[PartnerID]"
+                      dataType="ui1"
+                      name="PartnerID" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Dimensions\DW Game.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Dimensions\DW Game.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Dimensions\DW Game.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Dimensions\DW Game.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Dimensions\DW Game.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Dimensions\DW Partner"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="DW Partner"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[GameDW].[DimPartner]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Dimensions\DW Partner.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DW_Connection]"
+                  connectionManagerRefId="Package.ConnectionManagers[DW_Connection]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].Columns[PartnerID]"
+                      cachedDataType="ui1"
+                      cachedName="PartnerID"
+                      externalMetadataColumnId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].ExternalColumns[PartnerID]"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[PartnerID]" />
+                    <inputColumn
+                      refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[Name]" />
+                    <inputColumn
+                      refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].Columns[Website]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="Website"
+                      externalMetadataColumnId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].ExternalColumns[Website]"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[Website]" />
+                    <inputColumn
+                      refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].Columns[City]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="City"
+                      externalMetadataColumnId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[City]" />
+                    <inputColumn
+                      refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].Columns[State]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="State"
+                      externalMetadataColumnId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[State]" />
+                    <inputColumn
+                      refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].Columns[Country]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="Country"
+                      externalMetadataColumnId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[Country]" />
+                    <inputColumn
+                      refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].Columns[Note]"
+                      cachedDataType="wstr"
+                      cachedLength="250"
+                      cachedName="Note"
+                      externalMetadataColumnId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].ExternalColumns[Note]"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[Note]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].ExternalColumns[PartnerID]"
+                      dataType="ui1"
+                      name="PartnerID" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="50"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].ExternalColumns[Website]"
+                      dataType="wstr"
+                      length="250"
+                      name="Website" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].ExternalColumns[City]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].ExternalColumns[State]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="State" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].ExternalColumns[Country]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input].ExternalColumns[Note]"
+                      dataType="wstr"
+                      length="250"
+                      name="Note" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Dimensions\DW Partner.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Dimensions\DW Partner.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Dimensions\DW Partner.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Dimensions\DW Partner.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Dimensions\DW Partner.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Dimensions\DW Retailer"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="DW Retailer"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[GameDW].[DimRetailer]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Dimensions\DW Retailer.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[DW_Connection]"
+                  connectionManagerRefId="Package.ConnectionManagers[DW_Connection]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Dimensions\DW Retailer.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Dimensions\DW Retailer.Inputs[OLE DB Destination Input].Columns[RetailerID]"
+                      cachedDataType="ui1"
+                      cachedName="RetailerID"
+                      externalMetadataColumnId="Package\Dimensions\DW Retailer.Inputs[OLE DB Destination Input].ExternalColumns[RetailerID]"
+                      lineageId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Output].Columns[RetailerID]" />
+                    <inputColumn
+                      refId="Package\Dimensions\DW Retailer.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Dimensions\DW Retailer.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Output].Columns[Name]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\DW Retailer.Inputs[OLE DB Destination Input].ExternalColumns[RetailerID]"
+                      dataType="ui1"
+                      name="RetailerID" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\DW Retailer.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="50"
+                      name="Name" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Dimensions\DW Retailer.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Dimensions\DW Retailer.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Dimensions\DW Retailer.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Dimensions\DW Retailer.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Dimensions\DW Retailer.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Dimensions\DW Retailer.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Dimensions\OLTP Game"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLTP Game"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Game].[vGame]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Dimensions\OLTP Game.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[OLTP_Connection]"
+                  connectionManagerRefId="Package.ConnectionManagers[OLTP_Connection]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[GameID]"
+                      dataType="ui1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].ExternalColumns[GameID]"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[GameID]"
+                      name="GameID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      length="50"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[GameType]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].ExternalColumns[GameType]"
+                      length="50"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[GameType]"
+                      name="GameType"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[Partner]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].ExternalColumns[Partner]"
+                      length="50"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[Partner]"
+                      name="Partner"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[PartnerID]"
+                      dataType="ui1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].ExternalColumns[PartnerID]"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].Columns[PartnerID]"
+                      name="PartnerID"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].ExternalColumns[GameID]"
+                      dataType="ui1"
+                      name="GameID" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="50"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].ExternalColumns[GameType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="GameType" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].ExternalColumns[Partner]"
+                      dataType="wstr"
+                      length="50"
+                      name="Partner" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output].ExternalColumns[PartnerID]"
+                      dataType="ui1"
+                      name="PartnerID" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output].Columns[GameID]"
+                      dataType="ui1"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output].Columns[GameID]"
+                      name="GameID" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output].Columns[GameType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output].Columns[GameType]"
+                      name="GameType" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output].Columns[PartnerID]"
+                      dataType="ui1"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output].Columns[PartnerID]"
+                      name="PartnerID" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output].Columns[Partner]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output].Columns[Partner]"
+                      name="Partner" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Dimensions\OLTP Partner"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLTP Partner"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Game].[vPartner]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Dimensions\OLTP Partner.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[OLTP_Connection]"
+                  connectionManagerRefId="Package.ConnectionManagers[OLTP_Connection]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[PartnerID]"
+                      dataType="ui1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].ExternalColumns[PartnerID]"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[PartnerID]"
+                      name="PartnerID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      length="50"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[Website]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].ExternalColumns[Website]"
+                      length="250"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[Website]"
+                      name="Website"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[City]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].ExternalColumns[City]"
+                      length="50"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[City]"
+                      name="City"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[State]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].ExternalColumns[State]"
+                      length="2"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[State]"
+                      name="State"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[Country]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].ExternalColumns[Country]"
+                      length="50"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[Country]"
+                      name="Country"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[Note]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].ExternalColumns[Note]"
+                      length="250"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].Columns[Note]"
+                      name="Note"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].ExternalColumns[PartnerID]"
+                      dataType="ui1"
+                      name="PartnerID" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="50"
+                      name="Name" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].ExternalColumns[Website]"
+                      dataType="wstr"
+                      length="250"
+                      name="Website" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].ExternalColumns[City]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="City" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].ExternalColumns[State]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="State" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].ExternalColumns[Country]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="Country" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output].ExternalColumns[Note]"
+                      dataType="wstr"
+                      length="250"
+                      name="Note" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[PartnerID]"
+                      dataType="ui1"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[PartnerID]"
+                      name="PartnerID" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[Website]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[Website]"
+                      name="Website" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[City]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[City]"
+                      name="City" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[State]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[State]"
+                      name="State" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[Country]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[Country]"
+                      name="Country" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[Note]"
+                      dataType="wstr"
+                      length="250"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[Note]"
+                      name="Note" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Dimensions\OLTP Retailer"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLTP Retailer"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Game].[vRetailer]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Dimensions\OLTP Retailer.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[OLTP_Connection]"
+                  connectionManagerRefId="Package.ConnectionManagers[OLTP_Connection]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Output].Columns[RetailerID]"
+                      dataType="ui1"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Output].ExternalColumns[RetailerID]"
+                      lineageId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Output].Columns[RetailerID]"
+                      name="RetailerID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Output].Columns[Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      length="50"
+                      lineageId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Output].ExternalColumns[RetailerID]"
+                      dataType="ui1"
+                      name="RetailerID" />
+                    <externalMetadataColumn
+                      refId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="50"
+                      name="Name" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Error Output].Columns[RetailerID]"
+                      dataType="ui1"
+                      lineageId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Error Output].Columns[RetailerID]"
+                      name="RetailerID" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Dimensions.Paths[OLE DB Source Output]"
+              endId="Package\Dimensions\DW Game.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Dimensions\OLTP Game.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Dimensions.Paths[OLE DB Source Output1]"
+              endId="Package\Dimensions\DW Partner.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Dimensions\OLTP Partner.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Dimensions.Paths[OLE DB Source Output2]"
+              endId="Package\Dimensions\DW Retailer.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Dimensions\OLTP Retailer.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Drop FKs"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3300B1BE-C55A-44CF-9777-361F5D797F7E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Drop FKs"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C37399C7-766A-4BD8-8AA8-0BA873333CB9}"
+          SQLTask:SqlStatementSource="Exec GameDW.DropFKs;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{CCCC15BD-46C7-4FED-915A-7AA3281C409A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C37399C7-766A-4BD8-8AA8-0BA873333CB9}"
+          SQLTask:SqlStatementSource="EXEC GameDW.CreateFKs;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate ALL"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{56DE8887-9B28-46C0-803C-1B80D8F03F31}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate ALL"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C37399C7-766A-4BD8-8AA8-0BA873333CB9}"
+          SQLTask:SqlStatementSource="EXEC sp_MSForEachTable 'TRUNCATE TABLE ?'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{56781EC2-5006-43E1-A2EE-E8A9290C2E8B}"
+      DTS:From="Package\Drop FKs"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Truncate ALL" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{C5843F58-A1B4-49E7-8EA1-6D5552385E7A}"
+      DTS:From="Package\Truncate ALL"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Dimensions" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{295C67D1-CA15-440C-934D-30655547CA35}"
+      DTS:From="Package\Dimensions"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Build Time Dimension" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{15BA4140-96CF-4BBA-A572-B14BA76D2547}"
+      DTS:From="Package\Build Time Dimension"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Build SalesFact" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{C2DF1ABC-C0EC-4065-8FBB-09F45D0F902B}"
+      DTS:From="Package\Build SalesFact"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 4"
+      DTS:To="Package\Execute SQL Task" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="153.333333333334,42.6666666666667"
+          Id="Package\Build SalesFact"
+          TopLeft="362.499994598329,300.368426706322" />
+        <NodeLayout
+          Size="168,42.6666666666667"
+          Id="Package\Build Time Dimension"
+          TopLeft="357.499994672835,227.157899012526" />
+        <NodeLayout
+          Size="136,42.6666666666667"
+          Id="Package\Dimensions"
+          TopLeft="374.999994412064,158.73684509309" />
+        <NodeLayout
+          Size="124,42.6666666666667"
+          Id="Package\Drop FKs"
+          TopLeft="376.249994393438,21.8947372542194" />
+        <NodeLayout
+          Size="168,42.6666666666667"
+          Id="Package\Execute SQL Task"
+          TopLeft="349.374994793907,373.187141138247" />
+        <NodeLayout
+          Size="144,42.6666666666667"
+          Id="Package\Truncate ALL"
+          TopLeft="368.12499451451,88.9473700952662" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="439.187494453974,64.561403920886">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24.3859661743801"
+              Start="0,0"
+              End="0,16.8859661743801">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.8859661743801" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="441.562494463287,131.614036761933">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.1228083311576"
+              Start="0,0"
+              End="0,19.6228083311576">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.6228083311576" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="442.24999454245,201.403511759757">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25.754387252769"
+              Start="0,0"
+              End="0,18.254387252769">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.254387252769" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="440.333327968916,269.824565679193">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30.5438610271294"
+              Start="0,0"
+              End="0,23.0438610271294">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.0438610271294" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="436.270828029451,343.035093372989">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30.1520477652584"
+              Start="0,0"
+              End="0,22.6520477652584">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.6520477652584" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Build SalesFact">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="174.666666666667,42.6666666666667"
+          Id="Package\Build SalesFact\OLE DB Destination"
+          TopLeft="590,302" />
+        <NodeLayout
+          Size="154.666666666667,42.6666666666667"
+          Id="Package\Build SalesFact\OLE DB Source"
+          TopLeft="524,46" />
+        <NodeLayout
+          Size="160,42.6666666666667"
+          Id="Package\Build SalesFact\DimTime Lookup"
+          TopLeft="519,139" />
+        <EdgeLayout
+          Id="Package\Build SalesFact.Paths[OLE DB Source Output]"
+          TopLeft="600.166666666667,88.6666666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,50.3333333333333"
+              Start="0,0"
+              End="0,42.8333333333333">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.8333333333333" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="165.333333333334,42.6666666666667"
+          Id="Package\Build SalesFact\DimGame Lookup"
+          TopLeft="721,204" />
+        <EdgeLayout
+          Id="Package\Build SalesFact.Paths[Lookup Match Output]"
+          TopLeft="679,160.333333333333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="42.0000000000001,65"
+              Start="0,0"
+              End="34.5000000000001,65">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="17.0000000000001,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="17.0000000000001,0"
+                    Point2="21.0000000000001,0"
+                    Point3="21.0000000000001,4" />
+                  <mssgle:LineSegment
+                    End="21.0000000000001,61" />
+                  <mssgle:CubicBezierSegment
+                    Point1="21.0000000000001,61"
+                    Point2="21.0000000000001,65"
+                    Point3="25.0000000000001,65" />
+                  <mssgle:LineSegment
+                    End="34.5000000000001,65" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-27.1913867187499,-17.609375,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Build SalesFact.Paths[Lookup Match Output1]"
+          TopLeft="803.666666666667,246.666666666667">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-126.333333333333,55.3333333333334"
+              Start="0,0"
+              End="-126.333333333333,47.8333333333334">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.6666666666667" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,23.6666666666667"
+                    Point2="0,27.6666666666667"
+                    Point3="-4,27.6666666666667" />
+                  <mssgle:LineSegment
+                    End="-122.333333333333,27.6666666666667" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-122.333333333333,27.6666666666667"
+                    Point2="-126.333333333333,27.6666666666667"
+                    Point3="-126.333333333333,31.6666666666667" />
+                  <mssgle:LineSegment
+                    End="-126.333333333333,47.8333333333334" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-111.358053385417,32.6666666666667,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Build SalesFact\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Build SalesFact\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Build SalesFact\DimTime Lookup">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[GameDW].[DimTime]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Dimensions">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="140,42.6666666666667"
+          Id="Package\Dimensions\OLTP Game"
+          TopLeft="108.749998379499,36.2631585773008" />
+        <NodeLayout
+          Size="137.333333333334,42.6666666666667"
+          Id="Package\Dimensions\DW Retailer"
+          TopLeft="496.874992595985,125.894739211761" />
+        <NodeLayout
+          Size="146.666666666667,42.6666666666667"
+          Id="Package\Dimensions\OLTP Retailer"
+          TopLeft="496.874992595986,41.0526323516613" />
+        <NodeLayout
+          Size="145.333333333334,42.6666666666667"
+          Id="Package\Dimensions\OLTP Partner"
+          TopLeft="286.249995734543,40.368421812467" />
+        <NodeLayout
+          Size="129.333333333334,42.6666666666667"
+          Id="Package\Dimensions\DW Game"
+          TopLeft="111.249998342246,132.736844603705" />
+        <NodeLayout
+          Size="135.333333333334,42.6666666666667"
+          Id="Package\Dimensions\DW Partner"
+          TopLeft="291.874995650724,131.368423525316" />
+        <EdgeLayout
+          Id="Package\Dimensions.Paths[OLE DB Source Output1]"
+          TopLeft="359.2291623593,83.0350884791337">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48.3333350461825"
+              Start="0,0"
+              End="0,40.8333350461825">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.8333350461825" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Dimensions.Paths[OLE DB Source Output]"
+          TopLeft="177.333331694206,78.9298252439675">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53.8070193597376"
+              Start="0,0"
+              End="0,46.3070193597376">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46.3070193597376" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Dimensions.Paths[OLE DB Source Output2]"
+          TopLeft="567.874992595986,83.719299018328">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42.1754401934335"
+              Start="0,0"
+              End="0,34.6754401934335">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.6754401934335" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Dimensions\OLTP Game">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">View</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Dimensions\DW Retailer">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Dimensions\OLTP Retailer">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">View</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Dimensions\OLTP Partner">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">View</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Dimensions\DW Game">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Dimensions\DW Partner">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Build SalesFact\DimGame Lookup">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[Game].[vGame]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">1</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

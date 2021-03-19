@@ -79,7 +79,7 @@ ELSE
 BEGIN
     CREATE TABLE GameDW.DimRetailer
     (
-        RetailerID TINYINT NOT NULL,
+        RetailerID TINYINT	NOT NULL,
         [Name] NVARCHAR(50) NOT NULL,
         CONSTRAINT PK_DimRetailer_RetailerID PRIMARY KEY CLUSTERED (RetailerID),
         CONSTRAINT UK_DimRetailer_Name UNIQUE (Name)
@@ -104,8 +104,11 @@ ELSE
 BEGIN
     CREATE TABLE GameDW.DimGame
     (
-        GameID TINYINT NOT NULL,
-        [Name] NVARCHAR(50) NOT NULL,
+        GameID		TINYINT			NOT NULL,
+        [Name]		NVARCHAR(50)	NOT NULL,
+		GameType	VARCHAR(50)		NOT NULL,
+		PartnerID	TINYINT			NOT NULL,
+		[Partner]	NVARCHAR(50)	NOT NULL
         CONSTRAINT PK_DimGame_GameID PRIMARY KEY CLUSTERED (GameID),
         CONSTRAINT UK_DimGame_Name UNIQUE (Name)
     );
@@ -114,7 +117,35 @@ BEGIN
     RAISERROR(@Message, 0,1) WITH NOWAIT;
 END
 -------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+SET @ErrorText = 'Failed CREATE Table GameDW.DimPartner.';
 
+IF EXISTS (SELECT *
+FROM sys.objects
+WHERE object_id = OBJECT_ID(N'GameDW.DimPartner') AND type in (N'U'))
+BEGIN
+    SET @Message = 'Table GameDW.DimPartner already exist, skipping....';
+    RAISERROR(@Message, 0,1) WITH NOWAIT;
+END
+ELSE
+BEGIN
+    CREATE TABLE GameDW.DimPartner
+    (
+        PartnerID		TINYINT			NOT NULL,
+        [Name]			NVARCHAR(50)	NOT NULL,
+		Website			NVARCHAR(250)	NULL,
+		City			VARCHAR(50)		NOT NULL,
+		[State]			VARCHAR(2)		NOT NULL,
+		Country			VARCHAR(50)		NOT NULL,
+		[Note]			NVARCHAR(250)	NULL
+        CONSTRAINT PK_DimPartner_PartnerID PRIMARY KEY CLUSTERED (PartnerID),
+        CONSTRAINT UK_DimPartner_Name UNIQUE ([Name])
+    );
+
+    SET @Message = 'Completed CREATE TABLE GameDW.DimPartner.';
+    RAISERROR(@Message, 0,1) WITH NOWAIT;
+END
+-------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 SET @ErrorText = 'Failed CREATE Table GameDW.FactSales.';
 
@@ -129,12 +160,13 @@ ELSE
 BEGIN
     CREATE TABLE GameDW.FactSales
     (
-        OrderID INT NOT NULL,
-        GameID TINYINT NOT NULL,
-        RetailerID TINYINT NOT NULL,
-        TimeKey INT NOT NULL,
-        TotalAmount MONEY NOT NULL,
-        CONSTRAINT PK_FactSales_OrderID_CustomerID_ProductID_TimeKey PRIMARY KEY CLUSTERED (OrderID, GameID, RetailerID, TimeKey)
+        OrderID			INT			NOT NULL,
+        GameID			TINYINT		NOT NULL,
+		PartnerID		TINYINT		NOT NULL,
+        RetailerID		TINYINT		NOT NULL,
+        TimeKey			INT			NOT NULL,
+        TotalAmount		MONEY		NOT NULL,
+        CONSTRAINT PK_FactSales_OrderID_CustomerID_ProductID_TimeKey PRIMARY KEY CLUSTERED (OrderID, GameID, RetailerID, PartnerID, TimeKey)
     );
 
     SET @Message = 'Completed CREATE TABLE GameDW.FactSales.';

@@ -2,7 +2,7 @@ Create OR ALTER View Game.vPartner
 /***************************************************************************************************
 File: vPartner.sql
 ----------------------------------------------------------------------------------------------------
-View:      vPartner
+View:           Game.vPartner
 Create Date:    2021-03-01 
 Author:         Sorob Cyrus
 Description:    Creates the view for Partners' Information 

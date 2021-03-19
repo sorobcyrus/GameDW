@@ -1,10 +1,16 @@
+CREATE OR ALTER PROCEDURE GameDW.CreateFKs
+AS
 /***************************************************************************************************
-File: 02_InstertTables.sql
+File: CreateFKs.sql
 ----------------------------------------------------------------------------------------------------
-Create Date:    2021-03-01 
+Procedure:      GameDW.CreateFKs
+Create Date:    2021-03-01 (yyyy-mm-dd)
 Author:         Sorob Cyrus
-Description:    Inserts needed parameters to table Game.Game, Game.Team and Game.GameTeam (Many to Many) 
-Call by:        TBD, Add hoc
+Description:    Creates FKs for all needed GameDW tables  
+Call by:        TBD, UI, Add hoc
+Steps:          NA
+Parameter(s):   None
+Usage:          EXEC GameDW.CreateFKs
 ****************************************************************************************************
 SUMMARY OF CHANGES
 Date(yyyy-mm-dd)    Author              Comments
@@ -20,58 +26,39 @@ DECLARE @ErrorText VARCHAR(MAX),
 BEGIN TRY;   
 SET @ErrorText = 'Unexpected ERROR in setting the variables!';
 
-SET @SP = 'Script-1_InsertDataPartner';
+SET @SP = OBJECT_NAME(@@PROCID)
 SET @StartTime = GETDATE();
-
+   
 SET @Message = 'Started SP ' + @SP + ' at ' + FORMAT(@StartTime , 'MM/dd/yyyy HH:mm:ss');   
 RAISERROR (@Message, 0,1) WITH NOWAIT;
 
 -------------------------------------------------------------------------------
+SET @ErrorText = 'Failed adding FOREIGN KEY for Table GameDW.FactSales.';
 
-SET @ErrorText = 'Failed INSERT to table Game!';
-INSERT INTO Game.Game
-   (GameID, [Name])
-VALUES
-   (101, 'Stratigists Concur'),
-   (102, 'Chess match ultimate'),
-   (103, 'Band of firends'),
-   (104, 'Red-White rose')
+IF EXISTS (SELECT *
+FROM sys.foreign_keys
+WHERE object_id = OBJECT_ID(N'GameDW.FK_FactSales_DimGame_GameID')
+  AND parent_object_id = OBJECT_ID(N'GameDW.FactSales')
+)
+BEGIN
+  SET @Message = 'FOREIGN KEY for Table GameDW.FactSales already exist, skipping....';
+  RAISERROR(@Message, 0,1) WITH NOWAIT;
+END
+ELSE
+BEGIN
+  ALTER TABLE GameDW.FactSales
+   ADD CONSTRAINT FK_FactSales_DimGame_GameID FOREIGN KEY (GameID)
+      REFERENCES GameDW.DimGame (GameID),
+	CONSTRAINT FK_FactSales_DimRetialer_RetailerID FOREIGN KEY (RetailerID)
+      REFERENCES GameDW.DimRetailer (RetailerID),
+	CONSTRAINT FK_FactSales_DimPartner_PartnerID FOREIGN KEY (PartnerID)
+      REFERENCES GameDW.DimPartner (PartnerID),
+    CONSTRAINT FK_FactSales_DimTime_TimeKey FOREIGN KEY (TimeKey)
+      REFERENCES GameDW.DimTime (TimeKey);
 
-SET @Message = CONVERT(VARCHAR(10), @@ROWCOUNT) + ' rows effected. Completed INSERT to table Game';   
-RAISERROR (@Message, 0,1) WITH NOWAIT;
--------------------------------------------------------------------------------
-
-SET @ErrorText = 'Failed INSERT to table Retailer!';
-INSERT INTO Game.Retailer
-   (RetailerID, [Name])
-VALUES
-   (101, 'Amazian'),
-   (102, 'Googoolie'),
-   (103, 'Costonco')
-
-SET @Message = CONVERT(VARCHAR(10), @@ROWCOUNT) + ' rows effected. Completed INSERT to table Retailer';   
-RAISERROR (@Message, 0,1) WITH NOWAIT;
--------------------------------------------------------------------------------
-
-SET @ErrorText = 'Failed INSERT to table Order!';
-INSERT INTO Game.[Order]
-   (OrderID, GameID, RetailerID, OrderDate, Quantity, TotalAmount)
-VALUES
-   (01, 101, 101, '01/01/2021', 1, 10),
-   (02, 101, 102, '01/02/2021', 2, 20),
-   (03, 101, 102, '01/03/2021', 3, 30),
-   (04, 101, 101, '01/03/2021', 4, 40),
-   (05, 102, 101, '01/01/2021', 1, 10),
-   (06, 102, 102, '01/02/2021', 2, 20),
-   (07, 102, 103, '01/03/2021', 3, 30),
-   (08, 102, 102, '01/03/2021', 4, 40),
-   (09, 103, 103, '01/01/2021', 1, 10),
-   (10, 103, 102, '01/02/2021', 2, 20),
-   (11, 103, 101, '01/03/2021', 3, 30),
-   (12, 103, 101, '01/03/2021', 4, 40)
-
-SET @Message = CONVERT(VARCHAR(10), @@ROWCOUNT) + ' rows effected. Completed INSERT to table Customer';   
-RAISERROR (@Message, 0,1) WITH NOWAIT;
+  SET @Message = 'Completed adding FOREIGN KEY for TABLE GameDW.FactSales.';
+  RAISERROR(@Message, 0,1) WITH NOWAIT;
+END
 -------------------------------------------------------------------------------
 
 SET @Message = 'Completed SP ' + @SP + '. Duration in minutes:  '   
@@ -93,3 +80,4 @@ SET @ErrorText = 'Error: '+CONVERT(VARCHAR,ISNULL(ERROR_NUMBER(),'NULL'))
 
 RAISERROR(@ErrorText,18,127) WITH NOWAIT;
 END CATCH;      
+
