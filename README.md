@@ -1,2 +1,4 @@
 # GameDW
- OLTP side of Data warehouse pair
+ OLTP and Data warehouse 
+
+ ## ETA Soon
