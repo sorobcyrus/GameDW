@@ -1,11 +1,11 @@
-Create OR ALTER View Game.vGame
+Create OR ALTER View Game.vOrder
 /***************************************************************************************************
-File: vGame.sql
+File: vRetailer.sql
 ----------------------------------------------------------------------------------------------------
-View:           Game.vGame
+View:           Game.vRetailer
 Create Date:    2021-03-01 
 Author:         Sorob Cyrus
-Description:    Creates the view for Partners and their Games  
+Description:    Creates the view for Order' Information For seperation of concerns 
 Call by:        OLAP
 Steps:          NA
 Parameter(s):   None
@@ -16,14 +16,12 @@ Date			Author				Comments
 ****************************************************************************************************/
 AS
 SELECT 
-	G.GameID,
-	G.[Name],
-	T.[Name] AS GameType,
-	P.[Name] As [Partner]
-FROM Game.Game G
-	JOIN Game.[Partner] P
-	ON G.PartnerID = P.PartnerID
-	JOIN Game.[Type] T
-	ON G.TypeID = T.TypeID
+	O.OrderID,
+	O.GameID,
+	O.RetailerID,
+	O.OrderDate,
+	O.Quantity,
+	O.TotalAmount
+FROM Game.[Order] O
 ;
 GO

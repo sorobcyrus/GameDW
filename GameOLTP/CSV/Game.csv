@@ -1,0 +1,5 @@
+GameID,PartnerID,TypeID,Name,Price,Note
+101,101,1,Stratigists Concur,75.99,A game to stratigize and to concur
+102,101,2,Chess match ultimate,54.99,How to be a gracious loser
+103,102,5,Band of firends,99.99,Survive the war with a stick and some stones
+104,103,3,Red-White rose,29.99,Plant red or white roses then fight over them

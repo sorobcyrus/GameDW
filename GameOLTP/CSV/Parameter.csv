@@ -1,0 +1,7 @@
+Name,NumValue,CharValue,Note
+StartGameID,101,,Start ID for GameID
+StartOrderID,100001,,Start ID for OrderID
+StartOrderRetailerID,101,,Start ID for RetailerID
+StartPartnerID,101,,Start ID for PartnerID
+StartTeamID,11,,Start ID for TeamID
+StartTypeID,1,,Start ID for TypeID

@@ -1,0 +1,4 @@
+RetailerID,DiscountID,Name,Website,Address,City,ZIP
+101,1,Amazian,Amazian.gum,123 Amazian Rd,Seattle,98133-0001
+102,2,Googoolie,Googoolie.gum,234 Googoolie Rd,Boulder,80303-0001
+103,3,Costonco,Constonco.gum,345 Costonco Rd,New York,10258-0001
