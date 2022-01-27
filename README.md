@@ -1,4 +1,3 @@
 # GameDW
- OLTP and Data warehouse 
+A small OLTP and Data warehouse 
 
- ## ETA Soon
